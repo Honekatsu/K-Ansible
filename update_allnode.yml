@@ -17,6 +17,7 @@
       become: yes
       retries: 3
       delay: 5
+      when: ansible_distribution in ['Ubuntu']
     - name: apt upgrade
       ansible.builtin.apt:
         upgrade: yes
