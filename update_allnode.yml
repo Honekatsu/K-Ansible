@@ -1,8 +1,8 @@
 ---
-- name: update mcnode
+- name: update allnode
   hosts: all
   become: yes
-  gather_facts: no
+  gather_facts: yes
 
   tasks:
     # - name: dir
