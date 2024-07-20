@@ -5,26 +5,11 @@
   gather_facts: no
 
   tasks:
-    # - name: dir
-    #   ansible.builtin.command:
-    #     cmd: dir
-    #   become: no
-    #   changed_when: no
-    # - name: apt update
-    #   ansible.builtin.apt:
-    #     update_cache: yes
-    #     state: present
-    #   become: yes
-    # - name: apt upgrade
-    #   ansible.builtin.apt:
-    #     upgrade: yes
-    #     state: latest
-    #   become: yes
-    # - name: install fail2ban
-    #   ansible.builtin.apt: 
-    #     name: fail2ban
-    #     state: present
-    #   become: yes
+    - name: install fail2ban
+      ansible.builtin.apt:
+        name: fail2ban
+        state: present
+      become: yes
     - name: start fail2ban
       ansible.builtin.command:
         cmd: fail2ban-client start
