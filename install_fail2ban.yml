@@ -22,3 +22,9 @@
         cmd: fail2ban-client start
       become: yes
       changed_when: no
+    - name: enable fail2ban
+      ansible.builtin.systemd_service:
+        name: fail2ban.service
+        enabled: yes
+        state: started
+      become: yes
