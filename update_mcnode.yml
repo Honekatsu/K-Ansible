@@ -1,0 +1,22 @@
+---
+- name: update mcnode
+  hosts: Minecraft
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: dir
+      ansible.builtin.command:
+        cmd: dir
+      become: no
+      changed_when: no
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+      become: yes
+    - name: apt upgrade
+      ansible.builtin.apt:
+        upgrade: yes
+        state: latest
+      become: yes

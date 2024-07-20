@@ -1,0 +1,38 @@
+---
+- name: update mcbungee
+  hosts: Minecraft
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: dir
+      ansible.builtin.command:
+        cmd: dir
+      become: no
+      changed_when: no
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+      become: yes
+    - name: apt upgrade
+      ansible.builtin.apt:
+        upgrade: yes
+        state: latest
+      become: yes
+
+    - name: stop bungeecord
+      ansible.builtin.systemd:
+        name: mc02-bungee01
+        state: stopped 
+      when: inventory_hostname == 'ubumc02-bungee01'
+    - name: dl bungeecord
+      ansible.builtin.get_url:
+        url: https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar
+        dest: /home/katsu/bungee
+      when: inventory_hostname == 'ubumc02-bungee01'
+    - name: restart bungeecord
+      ansible.builtin.systemd:
+        name: mc02-bungee01
+        state: restarted
+      when: inventory_hostname == 'ubumc02-bungee01'

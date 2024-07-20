@@ -1,0 +1,34 @@
+---
+- name: update mcnode
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    # - name: dir
+    #   ansible.builtin.command:
+    #     cmd: dir
+    #   become: no
+    #   changed_when: no
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+      become: yes
+      retries: 3
+      delay: 5
+    - name: apt upgrade
+      ansible.builtin.apt:
+        upgrade: yes
+        state: latest
+      become: yes
+      retries: 3
+      delay: 5
+    - name: apt autoremove
+      ansible.builtin.apt:
+        autoremove: yes
+      become: yes
+    - name: apt autoclean
+      ansible.builtin.apt:
+        autoclean: yes
+      become: yes

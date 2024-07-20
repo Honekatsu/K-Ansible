@@ -1,0 +1,16 @@
+- name: ansible.builtin.copy
+  hosts: all
+  become: yes  
+  gather_facts: no
+
+  tasks:
+    - name: setting /etc/vim
+      ansible.builtin.copy:
+        src: vimrc
+        dest: /etc/vimrc
+      become: yes
+    - name: setting ~/.vimrc
+      ansible.builtin.copy:
+        src: vimrc 
+        dest: ~/.vimrc
+      become: no

@@ -1,0 +1,29 @@
+- name: ansible.builtin.copy
+  hosts: all
+  become: yes  
+  gather_facts: no
+
+  tasks:
+    - name: setting .ssh/
+      ansible.builtin.copy:
+        src: authorized_keys
+        dest: .ssh/authorized_keys
+      become: yes
+    - name: /etc/ssh/sshd_config
+      ansible.builtin.copy:
+        src: sshd_config
+        dest: /etc/ssh/sshd_config
+      become: yes
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
+    - name: /etc/ssh/sshd_config.d/50-cloud-init.conf
+      ansible.builtin.copy:
+        src: 50-cloud-init.conf
+        dest: /etc/ssh/sshd_config.d/50-cloud-init.conf
+      become: no
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted

@@ -1,0 +1,46 @@
+---
+- name: update mcbungee
+  hosts: ubumc02-spi01
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: dir
+      ansible.builtin.command:
+        cmd: dir
+      become: no
+      changed_when: no
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+      become: yes
+    - name: apt upgrade
+      ansible.builtin.apt:
+        upgrade: yes
+        state: latest
+      become: yes
+
+    - name: dl spigot
+      ansible.builtin.get_url:
+        url: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+        dest: /home/katsu
+    - name: built spigot
+      ansible.builtin.command:
+        cmd: "java -jar /home/katsu/BuildTools.jar -- rev latest"
+      become: yes
+    - name: rename spigot
+      ansible.builtin.command:
+        cmd: mv /home/katsu/spigot-*.jar /home/katsu/spigot-latest.jar
+    - name: stop spigot
+      ansible.builtin.systemd:
+        name: mc02-spi01
+        state: stopped 
+    - name: copy spigot
+      copy :     
+        src: /home/katsu/spigot-latest.jar
+        dest: /home/katsu/mc02spi01
+    - name: upgrade spigot
+      ansible.builtin.command:
+        cmd: screen java -Xms512M -Xmx3072M -jar /home/katsu/mc02spi01/spigot-latest.jar -forceUpgrade
+#upgrade までしかやならい。以後screenでCLI→stop sudo systemctl restart mc02-spi01
