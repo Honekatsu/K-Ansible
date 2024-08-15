@@ -21,7 +21,7 @@
         mode: 600
         state: file
       become: yes
-    - name: /etc/ssh/sshd_config
+    - name: copy /etc/ssh/sshd_config
       ansible.builtin.copy:
         src: sshd_config
         dest: /etc/ssh/sshd_config
