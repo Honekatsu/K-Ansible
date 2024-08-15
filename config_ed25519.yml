@@ -14,11 +14,13 @@
         path: ~/.ssh
         mode: 700
         state: file
+      become: yes
     - name: setting authorized_keys permissions
       ansible.builtin.file:
         path: ~/.ssh/authorized_keys
         mode: 600
         state: file
+      become: yes
     - name: /etc/ssh/sshd_config
       ansible.builtin.copy:
         src: sshd_config
