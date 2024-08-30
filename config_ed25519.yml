@@ -7,18 +7,22 @@
     - name: copy .ssh/authorized_keys
       ansible.builtin.copy:
         src: authorized_keys
-        dest: ~/.ssh/authorized_keys
+        dest: /home/{{ ansible_user }}/.ssh/authorized_keys
       become: yes
     - name: setting .ssh permissions
       ansible.builtin.file:
-        path: ~/.ssh
-        mode: 700
-        state: file
+        path: /home/{{ ansible_user }}/.ssh
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0700
+        state: directory
       become: yes
     - name: setting authorized_keys permissions
       ansible.builtin.file:
-        path: ~/.ssh/authorized_keys
-        mode: 600
+        path: /home/{{ ansible_user }}/.ssh/authorized_keys
+        mode: 0600
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         state: file
       become: yes
     - name: copy /etc/ssh/sshd_config
