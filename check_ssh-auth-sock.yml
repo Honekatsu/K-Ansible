@@ -1,0 +1,17 @@
+---
+- name: check SSH_AUTH sock
+  hosts: all
+  become: false
+  gather_facts: false
+
+  environment:
+    SSH_AUTH_SOCK: "{{ ansible_env.SSH_AUTH_SOCK }}"
+
+  tasks:
+    - name: Show SSH_AUTH variables
+      command: env
+      register: env_out
+
+    - name: Print SSH_AUTH related vars
+      debug:
+        msg: "{{ env_out.stdout_lines | select('search', 'SSH_AUTH') | list }}"
