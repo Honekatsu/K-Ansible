@@ -1,7 +1,7 @@
 ---
 - name: update allnode
   hosts: all
-  become: yes
+  become: false
   gather_facts: yes
 
   tasks:
@@ -12,7 +12,7 @@
       become: yes
       retries: 3
       delay: 5
-      when: ansible_distribution in ['Ubuntu']
+      when: ansible_facts['distribution'] in ['Ubuntu']
     - name: apt upgrade
       ansible.builtin.apt:
         upgrade: yes
@@ -20,21 +20,21 @@
       become: yes
       retries: 3
       delay: 5
-      when: ansible_distribution in ['Ubuntu']
+      when: ansible_facts['distribution'] in ['Ubuntu']
     - name: apt autoremove
       ansible.builtin.apt:
         autoremove: yes
       become: yes
-      when: ansible_distribution in ['Ubuntu']
+      when: ansible_facts['distribution'] in ['Ubuntu']
     - name: apt autoclean
       ansible.builtin.apt:
         autoclean: yes
       become: yes
-      when: ansible_distribution in ['Ubuntu']
+      when: ansible_facts['distribution'] in ['Ubuntu']
 
     - name: yum update
       ansible.builtin.yum:
         name: "*"
         state: latest
       become: yes
-      when: ansible_os_family in ['RedHat']
+      when: ansible_facts['os_family'] in ['RedHat']
