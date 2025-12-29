@@ -12,4 +12,3 @@ set hlsearch "検索結果のハイライト表示
 syntax on "シンタックスハイライトを有効化
 set laststatus=2 "スターテスバーを常時表示
 set wildmenu "補完の候補一覧表示
-colorscheme peachpuff "カラースキーム

@@ -4,11 +4,6 @@
   gather_facts: no
 
   tasks:
-    - name: setting /etc/vim
-      ansible.builtin.copy:
-        src: vimrc
-        dest: /etc/vimrc
-      become: yes
     - name: setting ~/.vimrc
       ansible.builtin.copy:
         src: vimrc 
